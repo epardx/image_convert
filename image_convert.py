@@ -3,11 +3,13 @@ import argparse
 from PIL import Image
 
 def image_convert(file_name):
-
     img = Image.open(file_name).convert('L')  # convert image to 8-bit grayscale
-    WIDTH, HEIGHT = img.size
-
-    data = list(img.getdata())  # convert image data to a list of integers
+    # img.show() # demonstrate image input
+    adj_img = img.resize((40, 40)) # adjust image to appropriate size
+    # adj_img.show() # demonstrate new image
+    WIDTH, HEIGHT = adj_img.size
+    
+    data = list(adj_img.getdata())  # convert image data to a list of integers
     # convert that to 2D list (list of lists of integers)
     data = [data[offset:offset + WIDTH] for offset in range(0, WIDTH * HEIGHT, WIDTH)]
 
@@ -15,18 +17,23 @@ def image_convert(file_name):
     # individually using data[row][col].
 
     # For example:
+    file = open("ui_out.txt", "w")
     for row in data:
-        print(' '.join('{:3}'.format(value) for value in row))
+        # print(' '.join('{:3}'.format(value) for value in row)) # Print to console
+        file.write(' '.join('{:3}'.format(value) for value in row))
+        file.write('\n')
+    file.close()
 
-    if args.output_file:
-        with open(args.output_file, 'w') as output_file:
-            for row in data:
-                output_file.write(' '.join('{:3}'.format(value) for value in row))
-                output_file.write('\n')
+# For running in cmd prompt
+##    if args.output_file:
+##        with open(args.output_file, 'w') as output_file:
+##            for row in data:
+##                output_file.write(' '.join('{:3}'.format(value) for value in row))
+##                output_file.write('\n')
 
 
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
+    # For running in cmd
     parser = argparse.ArgumentParser(description='cmd processor for image convert')
     parser.add_argument("cmd", help="Commands can be: convert")
     parser.add_argument('--i', dest='input_file')
