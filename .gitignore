@@ -1,0 +1,15 @@
+*.pyc
+*.log
+*.csv
+.DS_store
+service-account.json
+client-secrets.json
+__pycache__
+lib
+secrets.tar
+.cache
+.idea
+credentials.dat
+env
+inclusion*.txt
+Pipfile
